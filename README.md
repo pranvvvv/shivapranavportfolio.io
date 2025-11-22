@@ -1,3 +1,63 @@
+# shivapranavportfolio.io — Deploying the Gemini proxy
+
+This repository serves a static portfolio site (`index.html`) and includes a small Node/Express proxy (`server.js`) that forwards requests to the Google Generative Language (Gemini) API using a server-side `GEMINI_KEY` to avoid exposing the key in client code.
+
+This README describes how to deploy the proxy so the chat widget works for visitors.
+
+---
+
+## Recommended: Deploy to Render (quick HTTPS + easy GitHub integration)
+
+1. Sign in to https://render.com and click **New** → **Web Service**.
+2. Connect your GitHub account and select the repository `pranvvvv/shivapranavportfolio.io`.
+3. Fill the service settings:
+   - **Name**: `shivapranav-portfolio` (or any name)
+   - **Region**: choose nearest region
+   - **Branch**: `main`
+   - **Build Command**: leave empty (Render will run `npm install` automatically), or set `npm ci`.
+   - **Start Command**: `node server.js`
+4. Add environment variables in the Render dashboard under **Environment** → **Environment Variables**:
+   - `GEMINI_KEY` = your Gemini API key (keep this secret)
+   - Optionally set `PORT` (Render provides one automatically)
+5. Create the service. Render will build and deploy the app and provide an HTTPS URL like `https://shivapranav-portfolio.onrender.com`.
+
+After deployment, update your static site to point to the deployed proxy (if your static host is separate) by setting the `proxy-url` meta tag in `index.html` to the new HTTPS base URL (no trailing slash), for example:
+
+```html
+<meta name="proxy-url" content="https://shivapranav-portfolio.onrender.com">
+```
+
+Or, if you serve static files from the same Render service (recommended), the frontend will call `/api/generate` and everything will be same-origin.
+
+## Verify the deployed proxy
+
+From your local machine (PowerShell), run:
+
+```powershell
+Invoke-RestMethod -Uri 'https://shivapranav-portfolio.onrender.com/api/generate' -Method Post -ContentType 'application/json' -Body '{"prompt":"Hello from test"}'
+```
+
+Expected: a JSON response from the proxy (Gemini response forwarded). If you see `405` or `404`, the server isn't handling POSTs at that path.
+
+## Notes and troubleshooting
+- If your site is HTTPS (recommended) and the proxy is HTTP, browsers will block requests (mixed content). Always use HTTPS for the proxy.
+- Keep `GEMINI_KEY` server-side only; never add it to client code.
+- Server logs are useful for debugging. On Render you can view logs in the service dashboard.
+
+## Local development
+
+Start locally (already set up in this repo):
+
+```powershell
+# install deps
+npm install
+# start local server (serves static files + /api/generate)
+node server.js
+# open http://localhost:3001
+```
+
+## Contact / Next steps
+- If you want, I can generate a step-by-step screenshot guide for Render or produce a GitHub Actions workflow for automatic deploys (requires service API key).
 # Shiva Pranav — Portfolio
 
 This repository contains a static portfolio site with a small Node proxy for safely calling the Gemini API.
