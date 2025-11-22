@@ -728,6 +728,17 @@
             const isLocalhost = (location.hostname === 'localhost' || location.hostname === '127.0.0.1');
             const candidates = [];
 
+            // If a proxy URL is provided by the deployment (via meta tag or global), use it first.
+            const metaProxy = document.querySelector('meta[name="proxy-url"]')?.content;
+            const globalProxy = (typeof window !== 'undefined' && window.PROXY_URL) ? window.PROXY_URL : null;
+            const configuredProxy = metaProxy || globalProxy || null;
+
+            if (configuredProxy) {
+                // Make sure configuredProxy ends without a trailing slash and append path
+                const base = configuredProxy.replace(/\/+$/,'');
+                candidates.push(base + '/api/generate');
+            }
+
             // Prefer same-origin endpoint when the site is hosted on a server that also
             // exposes the proxy (production deployment with server.js serving static files)
             candidates.push('/api/generate');
