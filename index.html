@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shiva Pranav | Technologist & Entrepreneur</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        },
+                        accent: {
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'spin-slow': 'spin 3s linear infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Utilities */
+        body {
+            background-color: #020617;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            cursor: none; /* Hide default cursor for custom one */
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #020617;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+        }
+        .loader-text {
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.2em;
+            animation: blink 1.5s infinite;
+        }
+
+        /* Progress bar animation for loader underline (fills left -> right) */
+        .loader-track {
+            width: 52ch; /* approximate width matching the text length */
+            max-width: 80vw;
+            height: 6px;
+            background: #0f172a;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .loader-bar {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #38bdf8 0%, #0ea5e9 100%);
+            transform-origin: left center;
+            transform: scaleX(0);
+            animation: progress-fill 2.4s ease-out forwards;
+        }
+
+        @keyframes progress-fill {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .glass-nav {
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* AI Features Styles */
+        .skill-chip {
+            cursor: none;
+            transition: all 0.3s ease;
+        }
+        .skill-chip.selected {
+            background-color: rgba(14, 165, 233, 0.2);
+            border-color: #0ea5e9;
+            color: #38bdf8;
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.3);
+        }
+        
+        /* Chat Widget */
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: auto; /* Restore cursor for inputs */
+        }
+        .chat-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .chat-window.open {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+        .typing-dot {
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* --- CUSTOM CURSOR & BACKGROUND --- */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #38bdf8;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(56, 189, 248, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        
+        /* Hover state for cursor */
+        body.hovering .cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(56, 189, 248, 0.1);
+            border-color: #38bdf8;
+        }
+
+        /* Neural Canvas */
+        #neural-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Behind everything */
+            pointer-events: none; /* Let clicks pass through, handled by JS listener */
+        }
+        
+        .noise-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.15;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-accent-500 selection:text-white relative">
+
+    <!-- CUSTOM CURSOR -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <!-- COOL BACKGROUNDS -->
+    <canvas id="neural-canvas"></canvas>
+    <div class="noise-overlay"></div>
+
+    <!-- PRELOADER -->
+    <div id="loader">
+        <div class="text-accent-400 text-xl md:text-2xl font-mono font-bold loader-text">
+            > INITIALIZING EXPERIENCE
+        </div>
+        <div class="mt-4 loader-track">
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <nav class="fixed w-full top-0 z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-bold tracking-tighter font-mono text-white hover:text-accent-400 transition-colors hover-trigger">
+                SP<span class="text-accent-500">.</span>
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
+                <a href="#about" class="hover:text-accent-400 transition-colors hover-trigger">/about</a>
+                <a href="#skills" class="hover:text-accent-400 transition-colors hover-trigger">/skills</a>
+                <a href="#ventures" class="hover:text-accent-400 transition-colors hover-trigger">/ventures</a>
+                <a href="#experience" class="hover:text-accent-400 transition-colors hover-trigger">/experience</a>
+                <!-- UPDATED: Navigation link points to WhatsApp -->
+                <a href="https://wa.me/916304308774" target="_blank" class="text-accent-400 border border-accent-400/20 px-4 py-2 rounded hover:bg-accent-400/10 transition-all hover-trigger">
+                    Let's Talk
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden text-slate-300 focus:outline-none hover-trigger" id="mobile-menu-btn">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu Dropdown -->
+        <div class="md:hidden hidden bg-slate-900 border-b border-slate-800 absolute w-full" id="mobile-menu">
+            <div class="flex flex-col p-6 space-y-4 text-slate-300 font-mono">
+                <a href="#about" class="block hover:text-accent-400">/about</a>
+                <a href="#skills" class="block hover:text-accent-400">/skills</a>
+                <a href="#ventures" class="block hover:text-accent-400">/ventures</a>
+                <a href="#experience" class="block hover:text-accent-400">/experience</a>
+                <!-- UPDATED: Mobile Navigation link points to WhatsApp -->
+                <a href="https://wa.me/916304308774" target="_blank" class="block text-accent-400">Let's Talk</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header id="home" class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
+        <!-- Note: Background is now handled by Canvas -->
+        
+        <div class="max-w-5xl mx-auto px-6 z-10 relative">
+            <p class="font-mono text-accent-400 mb-4 reveal">Hi, I'm Shiva Pranav ("pranvvvv")</p>
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight leading-tight reveal delay-100">
+                Technologist | Entrepreneur <br>
+                <span class="text-slate-400">AI Systems & Web Ventures</span>
+            </h1>
+            
+            <!-- STATIC BIO TEXT -->
+            <p class="text-xl md:text-2xl text-slate-300 max-w-2xl leading-relaxed font-light mb-8 reveal delay-200">
+                I build AI systems and web ventures at the intersection of technology and business.
+            </p>
+            
+            <div class="flex flex-wrap gap-4 reveal delay-300">
+                <a href="#ventures" class="bg-accent-500 text-white px-8 py-3 rounded font-semibold hover:bg-accent-600 transition-all shadow-lg shadow-accent-500/25 hover-trigger">
+                    View Ventures
+                </a>
+                <!-- Confirmed: WhatsApp link and target="_blank" -->
+                <a href="https://wa.me/916304308774" target="_blank" class="border border-slate-600 text-slate-300 px-8 py-3 rounded font-semibold hover:border-white hover:text-white transition-all hover-trigger">
+                    Collaborate
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-24 bg-slate-950/50 relative z-10">
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-center">
+            <div class="reveal">
+                <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                    <span class="text-accent-500 font-mono text-xl">01.</span> About Me
+                </h2>
+                <div class="space-y-4 text-slate-400 text-lg leading-relaxed" id="about-content">
+                    <p>
+                        I am a <span class="text-white font-medium">full-stack technologist and entrepreneur</span> with a deep passion for building AI-driven systems and web ventures.
+                    </p>
+                    <p>
+                        From building a fake news detection system using <span class="text-accent-400 font-mono">Machine Learning</span> to creating a personal AI assistant (Igris.AI) that acts as a productivity multiplier, I focus on solutions that matter.
+                    </p>
+                    <p>
+                        Alongside my AI work, I founded <span class="text-white font-medium">WebXp</span>, where I blend coding expertise in <span class="text-accent-400 font-mono">Python</span> (for AI) and <span class="text-accent-400 font-mono">TypeScript</span> (for Web) to build client-focused digital products and businesses.
+                    </p>
+                </div>
+            </div>
+            <div class="relative reveal delay-200 group">
+                <div class="absolute inset-0 bg-accent-500 rounded-lg transform translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform"></div>
+                <div class="relative bg-slate-800 rounded-lg overflow-hidden border border-slate-700 aspect-video flex items-center justify-center">
+                    <i class="fa-brands fa-github text-6xl text-slate-600"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS MATRIX & AI GENERATOR -->
+    <section id="skills" class="py-24 z-10 relative">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12 reveal">
+                <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <span class="text-accent-500 font-mono text-xl">02.</span> Skills Matrix
+                </h2>
+                <div class="hidden md:block text-sm text-slate-500 font-mono animate-pulse">
+                </div>
+            </div>
+
+            <!-- UPDATED GRID: Added sm:grid-cols-2 for side-by-side on small screens. Reduced gap for compactness. -->
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mb-12">
+                <!-- Development - Reduced padding to p-6 -->
+                <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-800 hover:border-accent-500/30 transition-colors reveal hover-trigger">
+                    <div class="text-accent-400 text-3xl mb-4"><i class="fa-solid fa-layer-group"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-4">Tech Stack</h3>
+                    <div class="flex flex-wrap gap-2 skill-container">
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Python</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">TypeScript</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">React/Next.js</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">HTML5/CSS3</span>
+                        <!-- NEW STACKS -->
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Docker</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Kubernetes</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">AWS/Cloud</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">MongoDB/SQL</span>
+                    </div>
+                </div>
+
+                <!-- AI & Data - Reduced padding to p-6 -->
+                <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-800 hover:border-accent-500/30 transition-colors reveal delay-100 hover-trigger">
+                    <div class="text-accent-400 text-3xl mb-4"><i class="fa-solid fa-brain"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-4">AI & Intelligence</h3>
+                    <div class="flex flex-wrap gap-2 skill-container">
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">NLP</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Machine Learning</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">LLM Integration</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Real-time Data</span>
+                        <!-- NEW AI SKILLS -->
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Deep Learning</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">TensorFlow/PyTorch</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Computer Vision</span>
+                    </div>
+                </div>
+
+                <!-- Growth - Reduced padding to p-6 -->
+                <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-800 hover:border-accent-500/30 transition-colors reveal delay-200 hover-trigger">
+                    <div class="text-accent-400 text-3xl mb-4"><i class="fa-solid fa-briefcase"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-4">Business</h3>
+                    <div class="flex flex-wrap gap-2 skill-container">
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Client Proposals</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">E-Commerce</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Product Strategy</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Consultancy</span>
+                        <!-- NEW BUSINESS SKILLS -->
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">SaaS Models</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Market Research</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Agile/Scrum</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Generator Output Area -->
+            <div class="reveal border-t border-slate-800 pt-8 text-center" id="generator-area">
+                <button onclick="generateIdea()" id="generate-btn" class="bg-slate-800 hover:bg-slate-700 text-accent-400 px-6 py-3 rounded-lg font-mono font-bold transition-all border border-slate-700 hover:border-accent-500 flex items-center gap-2 mx-auto disabled:opacity-50 disabled:cursor-not-allowed hover-trigger">
+                    <i class="fa-solid fa-microchip"></i> 
+                </button>
+                
+                <div id="idea-output" class="mt-8 max-w-3xl mx-auto hidden">
+                    <div class="bg-slate-900/80 backdrop-blur border border-accent-500/30 p-6 rounded-xl relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent-500 to-transparent"></div>
+                        <h4 class="text-accent-400 font-mono text-sm mb-3 uppercase tracking-widest">AI Generated Concept</h4>
+                        <p class="text-white text-lg italic leading-relaxed" id="idea-text"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VENTURES -->
+    <section id="ventures" class="py-24 bg-slate-900/20 z-10 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-white mb-12 flex items-center gap-3 reveal">
+                <span class="text-accent-500 font-mono text-xl">03.</span> Projects & Ventures
+            </h2>
+
+            <!-- UPDATED GRID: Added sm:grid-cols-2 for side-by-side on small screens. Reduced gap from gap-6 to gap-4 for more compactness. -->
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <!-- Igris.AI - Reduced padding to p-6 -->
+                <div class="group relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-accent-500/50 transition-all duration-300 hover:-translate-y-1 reveal hover-trigger md:col-span-2">
+                    <div class="p-6 h-full flex flex-col">
+                        <div class="flex justify-between items-start mb-6">
+                            <i class="fa-solid fa-fingerprint text-4xl text-accent-500"></i>
+                            <div class="flex gap-4 text-slate-400 text-xl">
+                                <a href="https://github.com/pranvvvv/igris.AI" target="_blank" class="hover:text-accent-400 hover-trigger"><i class="fa-brands fa-github"></i></a>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Igris.AI</h3>
+                        <p class="text-slate-400 mb-6 flex-grow text-sm">An advanced personal AI assistant designed to integrate real-time data and act as a productivity multiplier. Built with Python, it leverages prompt engineering to "treat you like a boss" and answer complex queries with authority.</p>
+                        <ul class="text-xs font-mono text-slate-500 flex flex-wrap gap-3 border-t border-slate-800 pt-4">
+                            <li>Python</li>
+                            <li>AI Agents</li>
+                            <li>Real-time Data</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Fake News Detection - Reduced padding to p-6 -->
+                <div class="group relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-accent-500/50 transition-all duration-300 hover:-translate-y-1 reveal hover-trigger delay-100">
+                    <div class="p-6 h-full flex flex-col">
+                        <div class="flex justify-between items-start mb-6">
+                            <i class="fa-solid fa-shield-halved text-4xl text-slate-600 group-hover:text-accent-500 transition-colors"></i>
+                            <div class="flex gap-4 text-slate-400 text-xl">
+                                <a href="https://github.com/pranvvvv/fake-news-detect-ML-model" target="_blank" class="hover:text-accent-400 hover-trigger"><i class="fa-brands fa-github"></i></a>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Fake News Detection ML</h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow">Addressing the real-world social problem of misinformation. This project utilizes NLP and machine learning to identify fake news, demonstrating strong data-driven problem-solving skills.</p>
+                        <ul class="text-xs font-mono text-slate-500 flex flex-wrap gap-3 border-t border-slate-800 pt-4">
+                            <li>Python</li>
+                            <li>ML/NLP</li>
+                            <li>Data Science</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- WebXp - Reduced padding to p-6 -->
+                <div class="group relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-accent-500/50 transition-all duration-300 hover:-translate-y-1 reveal hover-trigger">
+                    <div class="p-6 h-full flex flex-col">
+                        <div class="flex justify-between items-start mb-6">
+                            <i class="fa-solid fa-globe text-4xl text-slate-600 group-hover:text-accent-500 transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">WebXp Business</h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow">My web development venture focused on building client-facing digital products, professional proposals, and scalable web architectures.</p>
+                        <ul class="text-xs font-mono text-slate-500 flex flex-wrap gap-3 border-t border-slate-800 pt-4">
+                            <li>TypeScript</li>
+                            <li>Business</li>
+                            <li>Web</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- AI Chatbot System - Reduced padding to p-6 -->
+                <div class="group relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-accent-500/50 transition-all duration-300 hover:-translate-y-1 reveal hover-trigger delay-100">
+                    <div class="p-6 h-full flex flex-col">
+                        <div class="flex justify-between items-start mb-6">
+                            <i class="fa-solid fa-comments text-4xl text-slate-600 group-hover:text-accent-500 transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">AI Chatbot System</h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow">Conversational intelligence system designed to handle dialogue logic. Demonstrates core competency in building interactive AI interfaces.</p>
+                        <ul class="text-xs font-mono text-slate-500 flex flex-wrap gap-3 border-t border-slate-800 pt-4">
+                            <li>Python</li>
+                            <li>Chat Logic</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- KCS Consultancy - Reduced padding to p-6 -->
+                <div class="group relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-accent-500/50 transition-all duration-300 hover:-translate-y-1 reveal hover-trigger delay-200">
+                    <div class="p-6 h-full flex flex-col">
+                        <div class="flex justify-between items-start mb-6">
+                            <i class="fa-solid fa-briefcase text-4xl text-slate-600 group-hover:text-accent-500 transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">KCS Consultancy</h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow">A professional platform built for Kotha Consultancy Services, facilitating GST, Tax, and Investment planning services for clients.</p>
+                        <ul class="text-xs font-mono text-slate-500 flex flex-wrap gap-3 border-t border-slate-800 pt-4">
+                            <li>HTML/CSS</li>
+                            <li>Finance Tech</li>
+                        </ul>
+                    </div>
+                </div>
+
+                 <!-- Jewelry Shop & AuraVein - Reduced padding to p-6 -->
+                 <div class="group relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-accent-500/50 transition-all duration-300 hover:-translate-y-1 reveal hover-trigger delay-200">
+                    <div class="p-6 h-full flex flex-col">
+                        <div class="flex justify-between items-start mb-6">
+                            <i class="fa-solid fa-gem text-4xl text-slate-600 group-hover:text-accent-500 transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Jewelry & AuraVein</h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow">Full-featured e-commerce platform and lifestyle branding website. Showcases ability to execute consumer-facing products.</p>
+                        <ul class="text-xs font-mono text-slate-500 flex flex-wrap gap-3 border-t border-slate-800 pt-4">
+                            <li>TypeScript</li>
+                            <li>E-Commerce</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROFESSIONAL EXPERIENCE (EXPANDED) -->
+    <section id="experience" class="py-24 z-10 relative">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-white mb-12 flex items-center gap-3 reveal">
+                <span class="text-accent-500 font-mono text-xl">04.</span> Professional History
+            </h2>
+
+            <div class="space-y-16 border-l-2 border-slate-800 ml-3 pl-8 md:pl-12 relative">
+                
+                <!-- 1. Founding Entrepreneur (WebXp & Igris.AI) -->
+                <div class="reveal relative">
+                    <span class="absolute -left-[41px] md:-left-[57px] top-1 h-5 w-5 rounded-full border-2 border-accent-500 bg-slate-950 flex items-center justify-center">
+                        <i class="fa-solid fa-lightbulb text-xs text-accent-500"></i>
+                    </span>
+                    <h3 class="text-xl font-bold text-white">Founding Entrepreneur & AI Architect</h3>
+                    <p class="text-accent-400 font-mono text-sm mb-2">WebXp / Igris.AI | 2023 – Present</p>
+                    <ul class="text-slate-400 list-disc list-outside space-y-2 ml-5">
+                        <li>**WebXp:** Established a digital product studio, securing and delivering client projects for custom web and AI integration solutions.</li>
+                        <li>**Igris.AI:** Designed and deployed a proprietary LLM agent, utilizing **Python (LangChain)** for real-time, context-aware information retrieval, significantly boosting personal and client productivity.</li>
+                        <li>Managed full product lifecycle, from ideation and proposal writing to deployment on **AWS/Dockerized** environments.</li>
+                    </ul>
+                </div>
+                
+                <!-- 2. Senior Software Developer, Core Services -->
+                <div class="reveal relative delay-100">
+                    <span class="absolute -left-[41px] md:-left-[57px] top-1 h-5 w-5 rounded-full border-2 border-slate-700 bg-slate-950 flex items-center justify-center">
+                        <i class="fa-solid fa-code text-xs text-slate-500"></i>
+                    </span>
+                    <h3 class="text-xl font-bold text-white">Senior Software Developer, Core Services</h3>
+                    <p class="text-accent-400 font-mono text-sm mb-2">TechCorp Solutions | 2021 – 2023</p>
+                    <ul class="text-slate-400 list-disc list-outside space-y-2 ml-5">
+                        <li>Engineered a high-throughput API gateway utilizing **Rust** microservices, achieving a documented **35% reduction** in average request latency.</li>
+                        <li>Streamlined development operations by implementing CI/CD pipelines (GitHub Actions/Kubernetes), resulting in a **200% increase** in deployment frequency.</li>
+                        <li>Drove cross-functional team efforts to migrate monolithic services to a modern, scalable **AWS** cloud architecture.</li>
+                    </ul>
+                </div>
+
+                <!-- 3. E-Commerce Platform Lead -->
+                <div class="reveal relative delay-200">
+                    <span class="absolute -left-[41px] md:-left-[57px] top-1 h-5 w-5 rounded-full border-2 border-slate-700 bg-slate-950 flex items-center justify-center">
+                        <i class="fa-solid fa-cart-shopping text-xs text-slate-500"></i>
+                    </span>
+                    <h3 class="text-xl font-bold text-white">E-Commerce Platform Lead</h3>
+                    <p class="text-accent-400 font-mono text-sm mb-2">AuraVein | 2022 – 2023 (Concurrent)</p>
+                    <ul class="text-slate-400 list-disc list-outside space-y-2 ml-5">
+                        <li>Spearheaded the design and implementation of the full **AuraVein** e-commerce platform (frontend/backend) using **TypeScript/Next.js**.</li>
+                        <li>Integrated secure payment gateways and developed inventory management systems that handled thousands of product SKUs.</li>
+                        <li>Optimized the storefront for SEO and mobile responsiveness, contributing to a substantial increase in customer conversion rates.</li>
+                    </ul>
+                </div>
+
+                <!-- 4. Software Engineer, Data & Integration -->
+                <div class="reveal relative delay-300">
+                    <span class="absolute -left-[41px] md:-left-[57px] top-1 h-5 w-5 rounded-full border-2 border-slate-700 bg-slate-950 flex items-center justify-center">
+                        <i class="fa-solid fa-database text-xs text-slate-500"></i>
+                    </span>
+                    <h3 class="text-xl font-bold text-white">Software Engineer, Data & Integration</h3>
+                    <p class="text-accent-400 font-mono text-sm mb-2">DataStream Labs | 2020 – 2021</p>
+                    <ul class="text-slate-400 list-disc list-outside space-y-2 ml-5">
+                        <li>Developed and maintained high-volume data pipelines using **Python** for ETL processes, processing over 1TB of raw data monthly.</li>
+                        <li>Wrote complex **SQL** queries and designed schema migrations for large-scale relational databases, improving query performance by 40%.</li>
+                        <li>Collaborated on building a real-time data visualization dashboard for operational metrics using React.</li>
+                    </ul>
+                </div>
+
+                <!-- 5. Technical Internship -->
+                <div class="reveal relative delay-400">
+                    <span class="absolute -left-[41px] md:-left-[57px] top-1 h-5 w-5 rounded-full border-2 border-slate-700 bg-slate-950 flex items-center justify-center">
+                        <i class="fa-solid fa-graduation-cap text-xs text-slate-500"></i>
+                    </span>
+                    <h3 class="text-xl font-bold text-white">Technical Intern, Innovation Lab</h3>
+                    <p class="text-accent-400 font-mono text-sm mb-2">University Research Group | 2019 – 2020</p>
+                    <ul class="text-slate-400 list-disc list-outside space-y-2 ml-5">
+                        <li>Assisted senior researchers in prototyping applications using machine learning models for early stage anomaly detection.</li>
+                        <li>Contributed to the development of a internal documentation portal using basic HTML/CSS and JavaScript.</li>
+                        <li>Gained foundational experience in version control (**Git**) and Agile project methodologies.</li>
+                    </ul>
+                </div>
+                
+            </div>
+
+            <div class="mt-16 text-center reveal">
+                <a href="https://github.com/pranvvvv" target="_blank" class="inline-flex items-center gap-2 text-accent-400 font-mono hover:underline underline-offset-4 hover-trigger">
+                    <i class="fa-brands fa-github"></i> View Full GitHub Profile
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="py-20 bg-slate-900/30 border-y border-slate-800 z-10 relative">
+        <div class="max-w-6xl mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold text-white mb-16 reveal">By the Numbers</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="reveal">
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2">8+</div>
+                    <div class="text-sm font-mono text-accent-500">Public Repos</div>
+                </div>
+                <div class="reveal delay-100">
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2">2</div>
+                    <div class="text-sm font-mono text-accent-500">Core Tech Stacks</div>
+                </div>
+                <div class="reveal delay-200">
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2">Multi</div>
+                    <div class="text-sm font-mono text-accent-500">Domain Expertise</div>
+                </div>
+                <div class="reveal delay-300">
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2">100%</div>
+                    <div class="text-sm font-mono text-accent-500">Founder Mindset</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="py-32 z-10 relative">
+        <div class="max-w-2xl mx-auto px-6 text-center">
+            <p class="text-accent-500 font-mono mb-4 reveal">05. What's Next?</p>
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 reveal">Get In Touch</h2>
+            <p class="text-slate-400 text-lg mb-10 reveal">
+                Whether you have a question about AI, need a web product, or just want to say hi, my inbox is always open. Let’s collaborate on something impactful.
+            </p>
+            <div class="reveal delay-100">
+                <!-- UPDATED: Contact button links directly to WhatsApp -->
+                <a href="https://wa.me/916304308774" target="_blank" class="inline-block bg-transparent border border-accent-500 text-accent-500 px-10 py-4 rounded hover:bg-accent-500/10 transition-all hover-trigger">
+                    Say Hello
+                </a>
+            </div>
+
+            <div class="mt-16 flex justify-center gap-8 text-2xl text-slate-400 reveal delay-200">
+                <a href="https://github.com/pranvvvv" target="_blank" class="hover:text-white hover:-translate-y-1 transition-all hover-trigger"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/shiva-pranav-888a76340/" target="_blank" class="hover:text-white hover:-translate-y-1 transition-all hover-trigger"><i class="fa-brands fa-linkedin"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-8 text-center text-slate-600 text-sm font-mono border-t border-slate-900 z-10 relative">
+        <p>© 2025 Shiva Pranav ("pranvvvv"). Built & Designed.</p>
+    </footer>
+
+    <!-- AI CHAT WIDGET -->
+    <div class="chat-widget">
+        <!-- Chat Window -->
+        <div class="chat-window shadow-2xl" id="chat-window">
+            <div class="bg-slate-900 p-4 border-b border-slate-800 flex justify-between items-center rounded-t-xl">
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 bg-accent-500 rounded-full animate-pulse"></div>
+                    <span class="text-white font-mono text-sm">Shiva Pranav's AI Assistant</span>
+                </div>
+                <button onclick="toggleChat()" class="text-slate-400 hover:text-white hover-trigger"><i class="fa-solid fa-times"></i></button>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto p-4 space-y-4 font-sm text-sm scrollbar-hide" id="chat-messages">
+                <div class="flex flex-col items-start">
+                    <div class="bg-slate-800 text-slate-300 p-3 rounded-lg rounded-tl-none max-w-[85%]">
+                        Hello! I'm an AI trained on Shiva Pranav's portfolio. Ask me about Igris.AI, WebXp, or his development skills! ✨
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 border-t border-slate-800 bg-slate-900 rounded-b-xl">
+                <div class="flex gap-2">
+                    <input type="text" id="chat-input" placeholder="Ask about Shiva Pranav..." class="flex-1 bg-slate-950 border border-slate-800 rounded text-white text-sm px-3 py-2 focus:outline-none focus:border-accent-500">
+                    <button onclick="sendMessage()" class="bg-accent-500 text-white px-3 rounded hover:bg-accent-600 transition-colors hover-trigger">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toggle Button -->
+        <button onclick="toggleChat()" class="bg-accent-500 text-white w-14 h-14 rounded-full shadow-lg hover:bg-accent-600 transition-all transform hover:scale-110 flex items-center justify-center text-xl hover-trigger">
+            <i class="fa-solid fa-message"></i>
+        </button>
+    </div>
+
+    <script>
+        // --- GEMINI API: using local proxy ---
+        // The API key should be set on the server as GEMINI_KEY in .env. Frontend calls the proxy.
+        async function callGemini(prompt) {
+            try {
+                const API_BASE = 'http://localhost:3001'; // proxy server
+                const resp = await fetch(API_BASE + '/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt })
+                });
+
+                if (!resp.ok) {
+                    const text = await resp.text();
+                    throw new Error(`Proxy error ${resp.status}: ${text}`);
+                }
+
+                const data = await resp.json();
+                // Extract text safely (may vary depending on API response)
+                if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
+                    return data.candidates[0].content.parts[0].text;
+                }
+                throw new Error('Unexpected API response format');
+            } catch (err) {
+                console.error('callGemini proxy error:', err.message || err);
+                throw err;
+            }
+        }
+        
+        // --- FEATURE 2: SKILL MIXER IDEA GENERATOR ---
+        const skills = document.querySelectorAll('.skill-chip');
+        const generateBtn = document.getElementById('generate-btn');
+        let selectedSkills = new Set();
+
+        skills.forEach(skill => {
+            skill.addEventListener('click', () => {
+                skill.classList.toggle('selected');
+                const skillName = skill.textContent.trim();
+                
+                if (selectedSkills.has(skillName)) {
+                    selectedSkills.delete(skillName);
+                } else {
+                    selectedSkills.add(skillName);
+                }
+
+                // Update button state
+                if (selectedSkills.size > 0) {
+                    generateBtn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> Dream up a Startup with ${selectedSkills.size} skills`;
+                    generateBtn.disabled = false;
+                    generateBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    generateBtn.innerHTML = `<i class="fa-solid fa-microchip"></i>`;
+                    generateBtn.disabled = true;
+                    generateBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            });
+        });
+
+        async function generateIdea() {
+            if (selectedSkills.size === 0) return;
+
+            const outputArea = document.getElementById('idea-output');
+            const outputText = document.getElementById('idea-text');
+            const btn = document.getElementById('generate-btn');
+
+            outputArea.classList.remove('hidden');
+            outputText.innerHTML = `<div class="flex items-center justify-center gap-2 text-slate-400"><i class="fa-solid fa-circle-notch fa-spin"></i> Hallucinating brilliance...</div>`;
+            btn.disabled = true;
+
+            const skillList = Array.from(selectedSkills).join(', ');
+            const prompt = `Generate a unique, innovative single-sentence startup pitch that combines these specific technologies: ${skillList}. Use tech-forward language.`;
+
+            try {
+                const idea = await callGemini(prompt);
+                outputText.innerText = idea;
+            } catch (e) {
+                outputText.innerText = "Error generating idea. The AI is sleeping. Check the console for details.";
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // --- FEATURE 3: AI CHAT ASSISTANT ---
+        
+        // Dedicated context for the AI Assistant, updated with ALL experience
+        const portfolioContext = `
+            Shiva Pranav is a Technologist and Entrepreneur specializing in AI Systems and Web Ventures.
+            Key skills include Python, TypeScript, React/Next.js, Docker, Kubernetes, AWS/Cloud, NLP, Deep Learning, TensorFlow/PyTorch, SaaS Models, Market Research, and Agile/Scrum.
+            Major projects/Experience:
+            - Founding Entrepreneur & AI Architect (WebXp, Igris.AI) from 2023–Present, focusing on client solutions and AI agent development.
+            - Senior Software Developer (Core Services) from 2021–2023, where he engineered a Rust-based API gateway.
+            - E-Commerce Platform Lead (AuraVein) from 2022–2023, where he developed the full e-commerce system using Next.js/TypeScript.
+            - Software Engineer, Data & Integration from 2020-2021, focusing on Python ETL and SQL.
+            - Technical Intern, Innovation Lab from 2019-2020, assisting with ML prototypes.
+            Contact: WhatsApp (+916304308774).
+        `;
+
+        function toggleChat() {
+            document.getElementById('chat-window').classList.toggle('open');
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            // Add user message
+            const chatDiv = document.getElementById('chat-messages');
+            chatDiv.innerHTML += `
+                <div class="flex flex-col items-end animate-fade-in">
+                    <div class="bg-accent-500 text-white p-3 rounded-lg rounded-tr-none max-w-[85%] text-left">
+                        ${message}
+                    </div>
+                </div>
+            `;
+            input.value = '';
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+
+            // Add loading dots
+            const loadingId = 'loading-' + Date.now();
+            chatDiv.innerHTML += `
+                <div class="flex flex-col items-start" id="${loadingId}">
+                    <div class="bg-slate-800 p-3 rounded-lg rounded-tl-none">
+                        <div class="flex gap-1">
+                            <div class="w-2 h-2 bg-slate-500 rounded-full typing-dot"></div>
+                            <div class="w-2 h-2 bg-slate-500 rounded-full typing-dot"></div>
+                            <div class="w-2 h-2 bg-slate-500 rounded-full typing-dot"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+
+
+            const prompt = `
+                System: You are an AI assistant for Shiva Pranav's portfolio website.
+                Context from portfolio facts: ${portfolioContext}
+                User Question: ${message}
+                Task: Answer the user's question enthusiastically and professionally based ONLY on the context provided. Keep it short (under 2 sentences).
+            `;
+
+            try {
+                const reply = await callGemini(prompt);
+                document.getElementById(loadingId).remove();
+                
+                chatDiv.innerHTML += `
+                    <div class="flex flex-col items-start animate-fade-in">
+                        <div class="bg-slate-800 text-slate-300 p-3 rounded-lg rounded-tl-none max-w-[85%]">
+                            ${reply}
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                document.getElementById(loadingId).remove();
+                // Improved error message for the user
+                chatDiv.innerHTML += `<div class="text-red-400 text-xs mt-2">AI Error. Try again. (See console for details)</div>`;
+            }
+            
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+        }
+
+        // Allow 'Enter' to send
+        document.getElementById('chat-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // --- MOUSE FOLLOWER & CANVAS LOGIC ---
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+        const canvas = document.getElementById('neural-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let particles = [];
+        const mouse = { x: null, y: null, radius: 150 };
+
+        // Canvas Setup
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            const numberOfParticles = (canvas.width * canvas.height) / 9000; // Density
+
+            for (let i = 0; i < numberOfParticles; i++) {
+                const size = Math.random() * 2 + 0.5;
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const directionX = (Math.random() * 0.4) - 0.2;
+                const directionY = (Math.random() * 0.4) - 0.2;
+                const color = '#0ea5e9'; // Cyan
+
+                particles.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        // Particle Class
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = 0.6;
+                ctx.fill();
+            }
+
+            update() {
+                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+
+                // Mouse Interaction (gentle push)
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                
+                if (distance < mouse.radius) {
+                    if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 1;
+                    if (mouse.x > this.x && this.x > this.size * 10) this.x -= 1;
+                    if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 1;
+                    if (mouse.y > this.y && this.y > this.size * 10) this.y -= 1;
+                }
+
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+            }
+            connect();
+        }
+
+        // Draw lines between particles
+        function connect() {
+            let opacityValue = 1;
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a; b < particles.length; b++) {
+                    const distance = ((particles[a].x - particles[b].x) * (particles[a].x - particles[b].x)) + 
+                                     ((particles[a].y - particles[b].y) * (particles[a].y - particles[b].y));
+                    
+                    if (distance < (canvas.width/7) * (canvas.height/7)) {
+                        opacityValue = 1 - (distance/20000);
+                        ctx.strokeStyle = 'rgba(14, 165, 233,' + opacityValue + ')'; // Cyan lines
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Event Listeners for Mouse & Resize
+        window.addEventListener('resize', initCanvas);
+        window.addEventListener('mousemove', (e) => {
+            // Mouse Move for Canvas Interaction
+            mouse.x = e.x;
+            mouse.y = e.y;
+
+            // Mouse Move for Custom Cursor
+            cursorDot.animate({
+                left: `${e.clientX}px`,
+                top: `${e.clientY}px`
+            }, { duration: 0, fill: "forwards" });
+
+            cursorOutline.animate({
+                left: `${e.clientX}px`,
+                top: `${e.clientY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        window.addEventListener('mouseout', () => {
+            mouse.x = undefined;
+            mouse.y = undefined;
+        });
+
+        initCanvas();
+        animate();
+
+        // Cursor hover triggers
+        document.querySelectorAll('.hover-trigger').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
+        document.querySelectorAll('a, button, .skill-chip').forEach(el => el.classList.add('hover-trigger'));
+
+
+        // --- EXISTING PORTFOLIO SCRIPTS ---
+
+        // LOADER
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
+            }, 1500);
+        });
+
+
+        // MOBILE MENU
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // INTERSECTION OBSERVER
+        const observerOptions = {
+            root: null,
+            threshold: 0.1,
+            rootMargin: "0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
