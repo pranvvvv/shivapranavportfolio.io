@@ -719,32 +719,58 @@
     </div>
 
     <script>
-        // --- GEMINI API: using local proxy ---
-        // The API key should be set on the server as GEMINI_KEY in .env. Frontend calls the proxy.
+        // --- GEMINI API: robust client-side caller ---
+        // Frontend will try the same-origin API endpoint first ("/api/generate").
+        // If that fails (static host without a proxy), it will fall back to the local
+        // proxy at http://localhost:3001. This keeps the UI usable both when the
+        // proxy is deployed alongside the site and when developing locally.
         async function callGemini(prompt) {
-            try {
-                const API_BASE = 'http://localhost:3001'; // proxy server
-                const resp = await fetch(API_BASE + '/api/generate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt })
-                });
+            const isLocalhost = (location.hostname === 'localhost' || location.hostname === '127.0.0.1');
+            const candidates = [];
 
-                if (!resp.ok) {
-                    const text = await resp.text();
-                    throw new Error(`Proxy error ${resp.status}: ${text}`);
-                }
+            // Prefer same-origin endpoint when the site is hosted on a server that also
+            // exposes the proxy (production deployment with server.js serving static files)
+            candidates.push('/api/generate');
 
-                const data = await resp.json();
-                // Extract text safely (may vary depending on API response)
-                if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
-                    return data.candidates[0].content.parts[0].text;
+            // Always include the local proxy as a fallback for local development.
+            if (!isLocalhost) candidates.push('http://localhost:3001/api/generate');
+            else candidates.unshift('http://localhost:3001/api/generate');
+
+            let lastError = null;
+
+            for (const url of candidates) {
+                try {
+                    const resp = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt })
+                    });
+
+                    if (!resp.ok) {
+                        const text = await resp.text().catch(() => resp.statusText || '');
+                        throw new Error(`API error ${resp.status}: ${text}`);
+                    }
+
+                    const data = await resp.json();
+                    // Extract text safely (may vary depending on API response)
+                    if (data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
+                        return data.candidates[0].content.parts[0].text;
+                    }
+                    // Some proxy variants might return the text directly in `text`
+                    if (data && data.text) return data.text;
+                    throw new Error('Unexpected API response format');
+                } catch (err) {
+                    // Keep trying the next candidate endpoint; log details to the console.
+                    console.warn(`callGemini: attempt to ${url} failed:`, err && (err.message || err));
+                    lastError = err;
+                    // network errors (TypeError) or CORS/connection issues should try next endpoint
+                    continue;
                 }
-                throw new Error('Unexpected API response format');
-            } catch (err) {
-                console.error('callGemini proxy error:', err.message || err);
-                throw err;
             }
+
+            console.error('callGemini: all endpoints failed. Last error:', lastError);
+            // Provide a user-friendly message to show in the UI (throw so callers can handle it)
+            throw new Error('AI service unavailable. Ensure the server proxy is running or deploy the proxy alongside the site. See console for details.');
         }
         
         // --- FEATURE 2: SKILL MIXER IDEA GENERATOR ---
@@ -872,8 +898,9 @@
                 `;
             } catch (e) {
                 document.getElementById(loadingId).remove();
-                // Improved error message for the user
-                chatDiv.innerHTML += `<div class="text-red-400 text-xs mt-2">AI Error. Try again. (See console for details)</div>`;
+                // Show a clearer error to the user (include short reason)
+                const short = (e && e.message) ? e.message : 'AI Error. Try again.';
+                chatDiv.innerHTML += `<div class="text-red-400 text-xs mt-2">${short} (See console for details)</div>`;
             }
             
             chatDiv.scrollTop = chatDiv.scrollHeight;
