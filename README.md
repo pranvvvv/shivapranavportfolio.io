@@ -58,6 +58,22 @@ node server.js
 
 ## Contact / Next steps
 - If you want, I can generate a step-by-step screenshot guide for Render or produce a GitHub Actions workflow for automatic deploys (requires service API key).
+
+## Automatic deploys (GitHub Actions -> Render)
+
+You can have GitHub automatically trigger a Render deploy whenever you push to `main`.
+
+1. Create a service in Render (see earlier section) and note the **Service ID** (in the service's settings or URL).
+2. Create an API key in Render: Account → API Keys → New API Key (give it a name and copy the value).
+3. In your GitHub repository settings, go to **Settings → Secrets and variables → Actions → New repository secret** and add two secrets:
+   - `RENDER_API_KEY` = the API key you created
+   - `RENDER_SERVICE_ID` = the Render Service ID
+4. The repository already includes `.github/workflows/deploy-render.yml`. On each push to `main`, GitHub Actions will call the Render API to create a new deploy for your service.
+
+Notes:
+- The workflow simply triggers a deploy and prints the response; check Actions logs for details.
+- Render will build and run your app (it will run `node server.js` as the start command configured in their dashboard).
+- You still need to set `GEMINI_KEY` in the Render service environment variables.
 # Shiva Pranav — Portfolio
 
 This repository contains a static portfolio site with a small Node proxy for safely calling the Gemini API.
