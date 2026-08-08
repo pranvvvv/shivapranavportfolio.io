@@ -6,7 +6,7 @@
     <!-- Optional: set this to your deployed proxy base URL (no trailing slash) -->
     <!-- The API is on the same origin via /api/generate, so no proxy-url needed -->
     <!-- <meta name="proxy-url" content="https://your-proxy.example.com"> -->
-    <title>Shiva Pranav | Technologist & Entrepreneur</title>
+    <title>Shiva Pranav | AI/ML Engineer & GenAI Systems Builder</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -237,6 +237,71 @@
             opacity: 0.15;
             pointer-events: none;
         }
+
+        /* --- TYPEWRITER ROLE ROTATOR --- */
+        #role-typewriter::after {
+            content: '';
+            display: inline-block;
+            width: 3px;
+            height: 1em;
+            margin-left: 4px;
+            background: #38bdf8;
+            vertical-align: -0.15em;
+            animation: caret-blink 0.9s steps(1) infinite;
+        }
+        @keyframes caret-blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        /* --- FLOATING ICONS --- */
+        .float-icon {
+            animation: float-y 4s ease-in-out infinite;
+        }
+        @keyframes float-y {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* --- GROWING TIMELINE LINE --- */
+        #timeline-track {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 0%;
+            background: linear-gradient(180deg, #38bdf8, #0ea5e9);
+            transition: height 1.6s cubic-bezier(0.5, 0, 0, 1);
+        }
+        #timeline-track.grow {
+            height: 100%;
+        }
+
+        /* --- COUNT-UP STAT NUMBERS --- */
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* --- MAGNETIC BUTTONS --- */
+        .magnetic-btn {
+            display: inline-block;
+            transition: transform 0.15s ease-out;
+            will-change: transform;
+        }
+
+        /* --- ANIMATED GRADIENT TEXT --- */
+        .gradient-text {
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #38bdf8);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradient-flow 6s linear infinite;
+        }
+        @keyframes gradient-flow {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-accent-500 selection:text-white relative">
@@ -302,23 +367,23 @@
         <!-- Note: Background is now handled by Canvas -->
         
         <div class="max-w-5xl mx-auto px-6 z-10 relative">
-            <p class="font-mono text-accent-400 mb-4 reveal">Hi, I'm Shiva Pranav ("pranvvvv")</p>
+            <p class="font-mono text-accent-400 mb-4 reveal">Hi, I'm Shiva Pranav</p>
             <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 tracking-tight leading-tight reveal delay-100">
-                Technologist | Entrepreneur <br>
-                <span class="text-slate-400">AI Systems & Web Ventures</span>
+                <span class="gradient-text" id="role-typewriter"></span><br>
+                <span class="text-slate-400">Founder-level AI product ownership</span>
             </h1>
-            
+
             <!-- STATIC BIO TEXT -->
             <p class="text-xl md:text-2xl text-slate-300 max-w-2xl leading-relaxed font-light mb-8 reveal delay-200">
-                I build AI systems and web ventures at the intersection of technology and business.
+                I build, train, and deploy ML and GenAI-powered systems in production — owning the full lifecycle from model development to deployment and scale across three ventures.
             </p>
-            
+
             <div class="flex flex-wrap gap-4 reveal delay-300">
-                <a href="#ventures" class="bg-accent-500 text-white px-8 py-3 rounded font-semibold hover:bg-accent-600 transition-all shadow-lg shadow-accent-500/25 hover-trigger">
+                <a href="#ventures" class="magnetic-btn bg-accent-500 text-white px-8 py-3 rounded font-semibold hover:bg-accent-600 transition-all shadow-lg shadow-accent-500/25 hover-trigger">
                     View Ventures
                 </a>
                 <!-- Confirmed: WhatsApp link and target="_blank" -->
-                <a href="https://wa.me/916304308774" target="_blank" class="border border-slate-600 text-slate-300 px-8 py-3 rounded font-semibold hover:border-white hover:text-white transition-all hover-trigger">
+                <a href="https://wa.me/916304308774" target="_blank" class="magnetic-btn border border-slate-600 text-slate-300 px-8 py-3 rounded font-semibold hover:border-white hover:text-white transition-all hover-trigger">
                     Collaborate
                 </a>
             </div>
@@ -334,13 +399,13 @@
                 </h2>
                 <div class="space-y-4 text-slate-400 text-lg leading-relaxed" id="about-content">
                     <p>
-                        I am a <span class="text-white font-medium">full-stack technologist and entrepreneur</span> with a deep passion for building AI-driven systems and web ventures.
+                        I'm an <span class="text-white font-medium">AI/ML Engineer and full-stack developer</span> with hands-on experience building, training, and deploying machine learning and GenAI-powered systems in production for real businesses.
                     </p>
                     <p>
-                        From building a fake news detection system using <span class="text-accent-400 font-mono">Machine Learning</span> to creating a personal AI assistant (Igris.AI) that acts as a productivity multiplier, I focus on solutions that matter.
+                        I start with the business problem, not the tech — figuring out what actually needs solving before picking a model or a framework. From an end-to-end distributed pipeline for <span class="text-accent-400 font-mono">fake news detection</span> (PySpark, Spark MLlib) to predicting <span class="text-accent-400 font-mono">Reddit post virality</span> across 3M+ posts, I focus on ML work that ships and measures.
                     </p>
                     <p>
-                        Alongside my AI work, I founded <span class="text-white font-medium">WebXp</span>, where I blend coding expertise in <span class="text-accent-400 font-mono">Python</span> (for AI) and <span class="text-accent-400 font-mono">TypeScript</span> (for Web) to build client-focused digital products and businesses.
+                        As founder/CTO across three ventures — <span class="text-white font-medium">codebrain.ai</span>, <span class="text-white font-medium">WebXp</span>, and <span class="text-white font-medium">Auravein</span> — I've owned the full lifecycle: architecture, development, automation, and scale, shipping 10+ production deployments and cutting manual workload by 40%+ with AI automation.
                     </p>
                 </div>
             </div>
@@ -364,54 +429,85 @@
                 </div>
             </div>
 
-            <!-- UPDATED GRID: Added sm:grid-cols-2 for side-by-side on small screens. Reduced gap for compactness. -->
+            <!-- Real skill categories, sourced from resume -->
             <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mb-12">
-                <!-- Development - Reduced padding to p-6 -->
+                <!-- Languages -->
                 <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-800 hover:border-accent-500/30 transition-colors reveal hover-trigger">
-                    <div class="text-accent-400 text-3xl mb-4"><i class="fa-solid fa-layer-group"></i></div>
-                    <h3 class="text-xl font-bold text-white mb-4">Tech Stack</h3>
+                    <div class="text-accent-400 text-3xl mb-4 float-icon"><i class="fa-solid fa-code"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-4">Languages</h3>
                     <div class="flex flex-wrap gap-2 skill-container">
                         <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Python</span>
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">TypeScript</span>
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">React/Next.js</span>
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">HTML5/CSS3</span>
-                        <!-- NEW STACKS -->
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Docker</span>
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Kubernetes</span>
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">AWS/Cloud</span>
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">MongoDB/SQL</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">JavaScript</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">HTML/CSS</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">SQL</span>
                     </div>
                 </div>
 
-                <!-- AI & Data - Reduced padding to p-6 -->
+                <!-- ML / AI -->
                 <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-800 hover:border-accent-500/30 transition-colors reveal delay-100 hover-trigger">
-                    <div class="text-accent-400 text-3xl mb-4"><i class="fa-solid fa-brain"></i></div>
-                    <h3 class="text-xl font-bold text-white mb-4">AI & Intelligence</h3>
+                    <div class="text-accent-400 text-3xl mb-4 float-icon"><i class="fa-solid fa-brain"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-4">ML / AI</h3>
                     <div class="flex flex-wrap gap-2 skill-container">
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">NLP</span>
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Machine Learning</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Apache Spark</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">PySpark</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Spark MLlib</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Model Training & Evaluation</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">NLP (TF-IDF)</span>
                         <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">LLM Integration</span>
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Real-time Data</span>
-                        <!-- NEW AI SKILLS -->
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Deep Learning</span>
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">TensorFlow/PyTorch</span>
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Computer Vision</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Prompt Engineering</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">GenAI App Dev</span>
                     </div>
                 </div>
 
-                <!-- Growth - Reduced padding to p-6 -->
+                <!-- Data Engineering -->
                 <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-800 hover:border-accent-500/30 transition-colors reveal delay-200 hover-trigger">
-                    <div class="text-accent-400 text-3xl mb-4"><i class="fa-solid fa-briefcase"></i></div>
-                    <h3 class="text-xl font-bold text-white mb-4">Business</h3>
+                    <div class="text-accent-400 text-3xl mb-4 float-icon"><i class="fa-solid fa-database"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-4">Data Engineering</h3>
                     <div class="flex flex-wrap gap-2 skill-container">
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Client Proposals</span>
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">E-Commerce</span>
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Product Strategy</span>
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Consultancy</span>
-                        <!-- NEW BUSINESS SKILLS -->
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">SaaS Models</span>
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Market Research</span>
-                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Agile/Scrum</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Large-Scale Data (18GB+)</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Parquet</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Stratified Sampling</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Tableau</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">EDA</span>
+                    </div>
+                </div>
+
+                <!-- Frameworks & Tools -->
+                <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-800 hover:border-accent-500/30 transition-colors reveal hover-trigger">
+                    <div class="text-accent-400 text-3xl mb-4 float-icon"><i class="fa-solid fa-layer-group"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-4">Frameworks & Tools</h3>
+                    <div class="flex flex-wrap gap-2 skill-container">
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">React</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Next.js</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Tailwind CSS</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">REST APIs</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Git/GitHub</span>
+                    </div>
+                </div>
+
+                <!-- Automation & Infra -->
+                <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-800 hover:border-accent-500/30 transition-colors reveal delay-100 hover-trigger">
+                    <div class="text-accent-400 text-3xl mb-4 float-icon"><i class="fa-solid fa-gears"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-4">Automation & Infra</h3>
+                    <div class="flex flex-wrap gap-2 skill-container">
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">n8n</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Make.com</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Shopify</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Hostinger</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Notion</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Cloud Deployment</span>
+                    </div>
+                </div>
+
+                <!-- Core CS -->
+                <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-800 hover:border-accent-500/30 transition-colors reveal delay-200 hover-trigger">
+                    <div class="text-accent-400 text-3xl mb-4 float-icon"><i class="fa-solid fa-briefcase"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-4">Core CS</h3>
+                    <div class="flex flex-wrap gap-2 skill-container">
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Data Structures & Algorithms</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">System Design</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Version Control</span>
+                        <span class="skill-chip px-3 py-1 bg-slate-800 text-slate-300 text-sm rounded font-mono border border-transparent hover:border-slate-600 hover-trigger">Agile Workflows</span>
                     </div>
                 </div>
             </div>
@@ -440,102 +536,86 @@
                 <span class="text-accent-500 font-mono text-xl">03.</span> Projects & Ventures
             </h2>
 
-            <!-- UPDATED GRID: Added sm:grid-cols-2 for side-by-side on small screens. Reduced gap from gap-6 to gap-4 for more compactness. -->
+            <!-- Real projects and ventures, sourced from resume -->
             <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-                <!-- Igris.AI - Reduced padding to p-6 -->
+                <!-- Fake News Detection -->
                 <div class="group relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-accent-500/50 transition-all duration-300 hover:-translate-y-1 reveal hover-trigger md:col-span-2">
                     <div class="p-6 h-full flex flex-col">
                         <div class="flex justify-between items-start mb-6">
-                            <i class="fa-solid fa-fingerprint text-4xl text-accent-500"></i>
-                            <div class="flex gap-4 text-slate-400 text-xl">
-                                <a href="https://github.com/pranvvvv/igris.AI" target="_blank" class="hover:text-accent-400 hover-trigger"><i class="fa-brands fa-github"></i></a>
-                            </div>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">Igris.AI</h3>
-                        <p class="text-slate-400 mb-6 flex-grow text-sm">An advanced personal AI assistant designed to integrate real-time data and act as a productivity multiplier. Built with Python, it leverages prompt engineering to "treat you like a boss" and answer complex queries with authority.</p>
-                        <ul class="text-xs font-mono text-slate-500 flex flex-wrap gap-3 border-t border-slate-800 pt-4">
-                            <li>Python</li>
-                            <li>AI Agents</li>
-                            <li>Real-time Data</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Fake News Detection - Reduced padding to p-6 -->
-                <div class="group relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-accent-500/50 transition-all duration-300 hover:-translate-y-1 reveal hover-trigger delay-100">
-                    <div class="p-6 h-full flex flex-col">
-                        <div class="flex justify-between items-start mb-6">
-                            <i class="fa-solid fa-shield-halved text-4xl text-slate-600 group-hover:text-accent-500 transition-colors"></i>
+                            <i class="fa-solid fa-shield-halved text-4xl text-accent-500"></i>
                             <div class="flex gap-4 text-slate-400 text-xl">
                                 <a href="https://github.com/pranvvvv/fake-news-detect-ML-model" target="_blank" class="hover:text-accent-400 hover-trigger"><i class="fa-brands fa-github"></i></a>
                             </div>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-2">Fake News Detection ML</h3>
-                        <p class="text-slate-400 text-sm mb-6 flex-grow">Addressing the real-world social problem of misinformation. This project utilizes NLP and machine learning to identify fake news, demonstrating strong data-driven problem-solving skills.</p>
+                        <h3 class="text-2xl font-bold text-white mb-2">Scalable Fake News Detection System</h3>
+                        <p class="text-slate-400 mb-6 flex-grow text-sm">Designed an end-to-end distributed ML pipeline (PySpark, Spark MLlib) processing 1GB+ of unstructured news data from Common Crawl (~31K labeled articles). Engineered TF-IDF text features and trained/benchmarked Logistic Regression, Linear SVM, Random Forest, and Naïve Bayes across accuracy, F1 score, and AUC, using stratified splitting for class imbalance and Parquet for efficient distributed storage.</p>
                         <ul class="text-xs font-mono text-slate-500 flex flex-wrap gap-3 border-t border-slate-800 pt-4">
-                            <li>Python</li>
-                            <li>ML/NLP</li>
+                            <li>PySpark</li>
+                            <li>Spark MLlib</li>
+                            <li>TF-IDF / NLP</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Reddit Virality Prediction -->
+                <div class="group relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-accent-500/50 transition-all duration-300 hover:-translate-y-1 reveal hover-trigger delay-100">
+                    <div class="p-6 h-full flex flex-col">
+                        <div class="flex justify-between items-start mb-6">
+                            <i class="fa-brands fa-reddit-alien text-4xl text-slate-600 group-hover:text-accent-500 transition-colors"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Reddit Virality Prediction</h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow">Distributed ML pipeline processing 3M+ Reddit posts (~18GB) to predict post virality from engagement metrics, timing, and subreddit metadata. Trained and compared Logistic Regression, Decision Trees, Random Forest, and Gradient Boosted Trees (best-performing), visualized via Tableau dashboards.</p>
+                        <ul class="text-xs font-mono text-slate-500 flex flex-wrap gap-3 border-t border-slate-800 pt-4">
+                            <li>PySpark</li>
+                            <li>Tableau</li>
                             <li>Data Science</li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- WebXp - Reduced padding to p-6 -->
+                <!-- codebrain.ai -->
                 <div class="group relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-accent-500/50 transition-all duration-300 hover:-translate-y-1 reveal hover-trigger">
                     <div class="p-6 h-full flex flex-col">
                         <div class="flex justify-between items-start mb-6">
-                            <i class="fa-solid fa-globe text-4xl text-slate-600 group-hover:text-accent-500 transition-colors"></i>
+                            <i class="fa-solid fa-microchip text-4xl text-slate-600 group-hover:text-accent-500 transition-colors"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-2">WebXp Business</h3>
-                        <p class="text-slate-400 text-sm mb-6 flex-grow">My web development venture focused on building client-facing digital products, professional proposals, and scalable web architectures.</p>
+                        <h3 class="text-xl font-bold text-white mb-2">codebrain.ai</h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow">Founded an AI-focused studio building GenAI-powered tools and automation systems for clients. Own end-to-end technical strategy, product architecture, and delivery as sole technical founder.</p>
                         <ul class="text-xs font-mono text-slate-500 flex flex-wrap gap-3 border-t border-slate-800 pt-4">
-                            <li>TypeScript</li>
-                            <li>Business</li>
-                            <li>Web</li>
+                            <li>GenAI</li>
+                            <li>Founder</li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- AI Chatbot System - Reduced padding to p-6 -->
+                <!-- WebXp / getpixage -->
                 <div class="group relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-accent-500/50 transition-all duration-300 hover:-translate-y-1 reveal hover-trigger delay-100">
                     <div class="p-6 h-full flex flex-col">
                         <div class="flex justify-between items-start mb-6">
-                            <i class="fa-solid fa-comments text-4xl text-slate-600 group-hover:text-accent-500 transition-colors"></i>
+                            <i class="fa-solid fa-globe text-4xl text-slate-600 group-hover:text-accent-500 transition-colors"></i>
+                            <div class="flex gap-4 text-slate-400 text-xl">
+                                <a href="https://getpixage.com" target="_blank" class="hover:text-accent-400 hover-trigger"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                            </div>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-2">AI Chatbot System</h3>
-                        <p class="text-slate-400 text-sm mb-6 flex-grow">Conversational intelligence system designed to handle dialogue logic. Demonstrates core competency in building interactive AI interfaces.</p>
+                        <h3 class="text-xl font-bold text-white mb-2">WebXp</h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow">Led technical strategy for a web solutions studio, delivering 10+ production websites, plus AI automation (WhatsApp bots, voice agents, email workflows) via n8n and Make.com.</p>
                         <ul class="text-xs font-mono text-slate-500 flex flex-wrap gap-3 border-t border-slate-800 pt-4">
-                            <li>Python</li>
-                            <li>Chat Logic</li>
+                            <li>React / Next.js</li>
+                            <li>Automation</li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- KCS Consultancy - Reduced padding to p-6 -->
+                <!-- Auravein -->
                 <div class="group relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-accent-500/50 transition-all duration-300 hover:-translate-y-1 reveal hover-trigger delay-200">
-                    <div class="p-6 h-full flex flex-col">
-                        <div class="flex justify-between items-start mb-6">
-                            <i class="fa-solid fa-briefcase text-4xl text-slate-600 group-hover:text-accent-500 transition-colors"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-2">KCS Consultancy</h3>
-                        <p class="text-slate-400 text-sm mb-6 flex-grow">A professional platform built for Kotha Consultancy Services, facilitating GST, Tax, and Investment planning services for clients.</p>
-                        <ul class="text-xs font-mono text-slate-500 flex flex-wrap gap-3 border-t border-slate-800 pt-4">
-                            <li>HTML/CSS</li>
-                            <li>Finance Tech</li>
-                        </ul>
-                    </div>
-                </div>
-
-                 <!-- Jewelry Shop & AuraVein - Reduced padding to p-6 -->
-                 <div class="group relative bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-accent-500/50 transition-all duration-300 hover:-translate-y-1 reveal hover-trigger delay-200">
                     <div class="p-6 h-full flex flex-col">
                         <div class="flex justify-between items-start mb-6">
                             <i class="fa-solid fa-gem text-4xl text-slate-600 group-hover:text-accent-500 transition-colors"></i>
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-2">Jewelry & AuraVein</h3>
-                        <p class="text-slate-400 text-sm mb-6 flex-grow">Full-featured e-commerce platform and lifestyle branding website. Showcases ability to execute consumer-facing products.</p>
+                        <h3 class="text-xl font-bold text-white mb-2">Auravein</h3>
+                        <p class="text-slate-400 text-sm mb-6 flex-grow">Built and optimized a Shopify-based e-commerce platform with custom-coded, minimalist UX. Integrated AI automation for orders, support, and email — cutting manual tasks by 40%+.</p>
                         <ul class="text-xs font-mono text-slate-500 flex flex-wrap gap-3 border-t border-slate-800 pt-4">
-                            <li>TypeScript</li>
+                            <li>Shopify</li>
                             <li>E-Commerce</li>
                         </ul>
                     </div>
@@ -551,78 +631,65 @@
                 <span class="text-accent-500 font-mono text-xl">04.</span> Professional History
             </h2>
 
-            <div class="space-y-16 border-l-2 border-slate-800 ml-3 pl-8 md:pl-12 relative">
-                
-                <!-- 1. Founding Entrepreneur (WebXp & Igris.AI) -->
+            <div class="space-y-16 ml-3 pl-8 md:pl-12 relative">
+                <!-- Static track + animated growing overlay -->
+                <div class="absolute left-0 top-0 h-full w-[2px] bg-slate-800"></div>
+                <div id="timeline-track"></div>
+
+                <!-- 1. Founder, codebrain.ai -->
                 <div class="reveal relative">
                     <span class="absolute -left-[41px] md:-left-[57px] top-1 h-5 w-5 rounded-full border-2 border-accent-500 bg-slate-950 flex items-center justify-center">
-                        <i class="fa-solid fa-lightbulb text-xs text-accent-500"></i>
+                        <i class="fa-solid fa-microchip text-xs text-accent-500"></i>
                     </span>
-                    <h3 class="text-xl font-bold text-white">Founding Entrepreneur & AI Architect</h3>
-                    <p class="text-accent-400 font-mono text-sm mb-2">WebXp / Igris.AI | 2023 – Present</p>
+                    <h3 class="text-xl font-bold text-white">Founder</h3>
+                    <p class="text-accent-400 font-mono text-sm mb-2">codebrain.ai | Feb 2026 – Present | Hyderabad, India</p>
                     <ul class="text-slate-400 list-disc list-outside space-y-2 ml-5">
-                        <li>**WebXp:** Established a digital product studio, securing and delivering client projects for custom web and AI integration solutions.</li>
-                        <li>**Igris.AI:** Designed and deployed a proprietary LLM agent, utilizing **Python (LangChain)** for real-time, context-aware information retrieval, significantly boosting personal and client productivity.</li>
-                        <li>Managed full product lifecycle, from ideation and proposal writing to deployment on **AWS/Dockerized** environments.</li>
+                        <li>Founded an AI-focused studio building GenAI-powered tools and automation systems for clients.</li>
+                        <li>Own end-to-end technical strategy, product architecture, and delivery as sole technical founder.</li>
                     </ul>
                 </div>
-                
-                <!-- 2. Senior Software Developer, Core Services -->
+
+                <!-- 2. Co-Founder, Auravein -->
                 <div class="reveal relative delay-100">
                     <span class="absolute -left-[41px] md:-left-[57px] top-1 h-5 w-5 rounded-full border-2 border-slate-700 bg-slate-950 flex items-center justify-center">
-                        <i class="fa-solid fa-code text-xs text-slate-500"></i>
+                        <i class="fa-solid fa-gem text-xs text-slate-500"></i>
                     </span>
-                    <h3 class="text-xl font-bold text-white">Senior Software Developer, Core Services</h3>
-                    <p class="text-accent-400 font-mono text-sm mb-2">TechCorp Solutions | 2021 – 2023</p>
+                    <h3 class="text-xl font-bold text-white">Co-Founder</h3>
+                    <p class="text-accent-400 font-mono text-sm mb-2">Auravein | Jan 2025 – Present | Hyderabad, India</p>
                     <ul class="text-slate-400 list-disc list-outside space-y-2 ml-5">
-                        <li>Engineered a high-throughput API gateway utilizing **Rust** microservices, achieving a documented **35% reduction** in average request latency.</li>
-                        <li>Streamlined development operations by implementing CI/CD pipelines (GitHub Actions/Kubernetes), resulting in a **200% increase** in deployment frequency.</li>
-                        <li>Drove cross-functional team efforts to migrate monolithic services to a modern, scalable **AWS** cloud architecture.</li>
+                        <li>Built and optimized a Shopify-based e-commerce platform with custom-coded, minimalist UX aligned to brand identity.</li>
+                        <li>Integrated AI-based automation for order confirmations, customer support, and email workflows, cutting manual operational tasks by over 40%.</li>
+                        <li>Coordinated the "Core Collection" product launch and directed content strategy across Instagram, increasing reach by 22% during launch.</li>
                     </ul>
                 </div>
 
-                <!-- 3. E-Commerce Platform Lead -->
+                <!-- 3. CTO / Founder, WebXp -->
                 <div class="reveal relative delay-200">
                     <span class="absolute -left-[41px] md:-left-[57px] top-1 h-5 w-5 rounded-full border-2 border-slate-700 bg-slate-950 flex items-center justify-center">
-                        <i class="fa-solid fa-cart-shopping text-xs text-slate-500"></i>
+                        <i class="fa-solid fa-globe text-xs text-slate-500"></i>
                     </span>
-                    <h3 class="text-xl font-bold text-white">E-Commerce Platform Lead</h3>
-                    <p class="text-accent-400 font-mono text-sm mb-2">AuraVein | 2022 – 2023 (Concurrent)</p>
+                    <h3 class="text-xl font-bold text-white">Chief Technology Officer / Founder</h3>
+                    <p class="text-accent-400 font-mono text-sm mb-2">WebXp | Sep 2024 – Dec 2025 | Hyderabad, India</p>
                     <ul class="text-slate-400 list-disc list-outside space-y-2 ml-5">
-                        <li>Spearheaded the design and implementation of the full **AuraVein** e-commerce platform (frontend/backend) using **TypeScript/Next.js**.</li>
-                        <li>Integrated secure payment gateways and developed inventory management systems that handled thousands of product SKUs.</li>
-                        <li>Optimized the storefront for SEO and mobile responsiveness, contributing to a substantial increase in customer conversion rates.</li>
+                        <li>Led technical strategy and development for a web solutions studio, delivering 10+ fully responsive production websites for clients across fashion, consulting, and local service industries using React, Next.js, and Tailwind CSS.</li>
+                        <li>Designed and built AI-powered automation systems including WhatsApp follow-up bots, voice-based customer support agents, and email marketing workflows using n8n and Make.com, reducing manual client operations workload.</li>
+                        <li>Built a full client acquisition pipeline (proposals, Notion-based client portals, pricing systems), closing deals worth ₹50K–₹2L.</li>
+                        <li>Owned infrastructure and hosting operations, packaging services into recurring monthly retainers via Hostinger's agency tools.</li>
                     </ul>
                 </div>
 
-                <!-- 4. Software Engineer, Data & Integration -->
+                <!-- 4. Funding & Partnership Associate, FailBox -->
                 <div class="reveal relative delay-300">
                     <span class="absolute -left-[41px] md:-left-[57px] top-1 h-5 w-5 rounded-full border-2 border-slate-700 bg-slate-950 flex items-center justify-center">
-                        <i class="fa-solid fa-database text-xs text-slate-500"></i>
+                        <i class="fa-solid fa-handshake text-xs text-slate-500"></i>
                     </span>
-                    <h3 class="text-xl font-bold text-white">Software Engineer, Data & Integration</h3>
-                    <p class="text-accent-400 font-mono text-sm mb-2">DataStream Labs | 2020 – 2021</p>
+                    <h3 class="text-xl font-bold text-white">Funding & Partnership Associate (Intern)</h3>
+                    <p class="text-accent-400 font-mono text-sm mb-2">FailBox | Dec 2025 – Feb 2026 | India</p>
                     <ul class="text-slate-400 list-disc list-outside space-y-2 ml-5">
-                        <li>Developed and maintained high-volume data pipelines using **Python** for ETL processes, processing over 1TB of raw data monthly.</li>
-                        <li>Wrote complex **SQL** queries and designed schema migrations for large-scale relational databases, improving query performance by 40%.</li>
-                        <li>Collaborated on building a real-time data visualization dashboard for operational metrics using React.</li>
+                        <li>Conducted research on investor and partner networks and drafted strategic outreach communications to support fundraising and growth strategy.</li>
                     </ul>
                 </div>
 
-                <!-- 5. Technical Internship -->
-                <div class="reveal relative delay-400">
-                    <span class="absolute -left-[41px] md:-left-[57px] top-1 h-5 w-5 rounded-full border-2 border-slate-700 bg-slate-950 flex items-center justify-center">
-                        <i class="fa-solid fa-graduation-cap text-xs text-slate-500"></i>
-                    </span>
-                    <h3 class="text-xl font-bold text-white">Technical Intern, Innovation Lab</h3>
-                    <p class="text-accent-400 font-mono text-sm mb-2">University Research Group | 2019 – 2020</p>
-                    <ul class="text-slate-400 list-disc list-outside space-y-2 ml-5">
-                        <li>Assisted senior researchers in prototyping applications using machine learning models for early stage anomaly detection.</li>
-                        <li>Contributed to the development of a internal documentation portal using basic HTML/CSS and JavaScript.</li>
-                        <li>Gained foundational experience in version control (**Git**) and Agile project methodologies.</li>
-                    </ul>
-                </div>
-                
             </div>
 
             <div class="mt-16 text-center reveal">
@@ -633,26 +700,43 @@
         </div>
     </section>
 
+    <!-- EDUCATION -->
+    <section id="education" class="py-24 bg-slate-950/50 z-10 relative">
+        <div class="max-w-4xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-white mb-12 flex items-center gap-3 reveal">
+                <span class="text-accent-500 font-mono text-xl">05.</span> Education
+            </h2>
+            <div class="reveal bg-slate-900/50 p-8 rounded-xl border border-slate-800 hover:border-accent-500/30 transition-colors flex flex-col md:flex-row md:items-center gap-6 hover-trigger">
+                <div class="text-accent-400 text-4xl float-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                <div>
+                    <h3 class="text-xl font-bold text-white">Bachelor of Technology (B.Tech), Computer Science & Engineering</h3>
+                    <p class="text-accent-400 font-mono text-sm mt-1">Global Institute of Engineering and Technology</p>
+                    <p class="text-slate-500 text-sm mt-1">Oct 2024 – Dec 2028 (Expected)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- STATS -->
     <section class="py-20 bg-slate-900/30 border-y border-slate-800 z-10 relative">
         <div class="max-w-6xl mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold text-white mb-16 reveal">By the Numbers</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div class="reveal">
-                    <div class="text-4xl md:text-5xl font-bold text-white mb-2">8+</div>
-                    <div class="text-sm font-mono text-accent-500">Public Repos</div>
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2"><span class="stat-number" data-target="10" data-suffix="+">0</span></div>
+                    <div class="text-sm font-mono text-accent-500">Production Deployments</div>
                 </div>
                 <div class="reveal delay-100">
-                    <div class="text-4xl md:text-5xl font-bold text-white mb-2">2</div>
-                    <div class="text-sm font-mono text-accent-500">Core Tech Stacks</div>
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2"><span class="stat-number" data-target="3" data-suffix="">0</span></div>
+                    <div class="text-sm font-mono text-accent-500">Ventures Founded</div>
                 </div>
                 <div class="reveal delay-200">
-                    <div class="text-4xl md:text-5xl font-bold text-white mb-2">Multi</div>
-                    <div class="text-sm font-mono text-accent-500">Domain Expertise</div>
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2"><span class="stat-number" data-target="40" data-suffix="%+">0</span></div>
+                    <div class="text-sm font-mono text-accent-500">Manual Workload Reduced</div>
                 </div>
                 <div class="reveal delay-300">
-                    <div class="text-4xl md:text-5xl font-bold text-white mb-2">100%</div>
-                    <div class="text-sm font-mono text-accent-500">Founder Mindset</div>
+                    <div class="text-4xl md:text-5xl font-bold text-white mb-2"><span class="stat-number" data-target="18" data-suffix="GB+">0</span></div>
+                    <div class="text-sm font-mono text-accent-500">Data Processed (Reddit ML)</div>
                 </div>
             </div>
         </div>
@@ -661,7 +745,7 @@
     <!-- CONTACT -->
     <section id="contact" class="py-32 z-10 relative">
         <div class="max-w-2xl mx-auto px-6 text-center">
-            <p class="text-accent-500 font-mono mb-4 reveal">05. What's Next?</p>
+            <p class="text-accent-500 font-mono mb-4 reveal">06. What's Next?</p>
             <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 reveal">Get In Touch</h2>
             <p class="text-slate-400 text-lg mb-10 reveal">
                 Whether you have a question about AI, need a web product, or just want to say hi, my inbox is always open. Let’s collaborate on something impactful.
@@ -675,14 +759,14 @@
 
             <div class="mt-16 flex justify-center gap-8 text-2xl text-slate-400 reveal delay-200">
                 <a href="https://github.com/pranvvvv" target="_blank" class="hover:text-white hover:-translate-y-1 transition-all hover-trigger"><i class="fa-brands fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/shiva-pranav-888a76340/" target="_blank" class="hover:text-white hover:-translate-y-1 transition-all hover-trigger"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://www.linkedin.com/in/shivapranav-888a76340" target="_blank" class="hover:text-white hover:-translate-y-1 transition-all hover-trigger"><i class="fa-brands fa-linkedin"></i></a>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer class="py-8 text-center text-slate-600 text-sm font-mono border-t border-slate-900 z-10 relative">
-        <p>© 2025 Shiva Pranav ("pranvvvv"). Built & Designed.</p>
+        <p>© 2026 Shiva Pranav. Built & Designed.</p>
     </footer>
 
     <!-- AI CHAT WIDGET -->
@@ -700,7 +784,7 @@
             <div class="flex-1 overflow-y-auto p-4 space-y-4 font-sm text-sm scrollbar-hide" id="chat-messages">
                 <div class="flex flex-col items-start">
                     <div class="bg-slate-800 text-slate-300 p-3 rounded-lg rounded-tl-none max-w-[85%]">
-                        Hello! I'm an AI trained on Shiva Pranav's portfolio. Ask me about Igris.AI, WebXp, or his development skills! ✨
+                        Hello! I'm an AI trained on Shiva Pranav's portfolio. Ask me about codebrain.ai, WebXp, Auravein, or his ML projects! ✨
                     </div>
                 </div>
             </div>
@@ -844,15 +928,18 @@
         
         // Dedicated context for the AI Assistant, updated with ALL experience
         const portfolioContext = `
-            Shiva Pranav is a Technologist and Entrepreneur specializing in AI Systems and Web Ventures.
-            Key skills include Python, TypeScript, React/Next.js, Docker, Kubernetes, AWS/Cloud, NLP, Deep Learning, TensorFlow/PyTorch, SaaS Models, Market Research, and Agile/Scrum.
-            Major projects/Experience:
-            - Founding Entrepreneur & AI Architect (WebXp, Igris.AI) from 2023–Present, focusing on client solutions and AI agent development.
-            - Senior Software Developer (Core Services) from 2021–2023, where he engineered a Rust-based API gateway.
-            - E-Commerce Platform Lead (AuraVein) from 2022–2023, where he developed the full e-commerce system using Next.js/TypeScript.
-            - Software Engineer, Data & Integration from 2020-2021, focusing on Python ETL and SQL.
-            - Technical Intern, Innovation Lab from 2019-2020, assisting with ML prototypes.
-            Contact: WhatsApp (+916304308774).
+            Shiva Pranav is an AI/ML Engineer, full-stack developer, and GenAI systems builder based in Hyderabad, India.
+            Key skills: Python, JavaScript, SQL, Apache Spark/PySpark/Spark MLlib, NLP (TF-IDF), LLM integration & prompt engineering, GenAI app development, React, Next.js, Tailwind CSS, n8n, Make.com, Shopify.
+            Experience:
+            - Founder, codebrain.ai (Feb 2026–Present): AI-focused studio building GenAI tools and automation systems for clients.
+            - Co-Founder, Auravein (Jan 2025–Present): Shopify e-commerce brand, built custom UX and AI automation cutting manual tasks 40%+.
+            - Chief Technology Officer / Founder, WebXp (Sep 2024–Dec 2025): Web solutions studio, delivered 10+ production websites and AI automation systems.
+            - Funding & Partnership Associate (Intern), FailBox (Dec 2025–Feb 2026): Investor/partner research and outreach.
+            Key Projects:
+            - Scalable Fake News Detection System: distributed PySpark/Spark MLlib pipeline on 31K+ labeled news articles, TF-IDF features, benchmarked Logistic Regression, Linear SVM, Random Forest, and Naive Bayes.
+            - Reddit Virality Prediction: distributed pipeline on 3M+ Reddit posts (~18GB), predicting virality with Gradient Boosted Trees as best performer, visualized in Tableau.
+            Education: B.Tech Computer Science & Engineering, Global Institute of Engineering and Technology (Oct 2024 – Dec 2028, expected).
+            Contact: WhatsApp (+916304308774), LinkedIn (linkedin.com/in/shivapranav-888a76340), GitHub (github.com/pranvvvv).
         `;
 
         function toggleChat() {
@@ -1098,6 +1185,96 @@
 
         document.querySelectorAll('.reveal').forEach(el => {
             observer.observe(el);
+        });
+
+        // --- HERO ROLE TYPEWRITER ---
+        (function() {
+            const el = document.getElementById('role-typewriter');
+            if (!el) return;
+            const roles = ['AI/ML Engineer', 'Full-Stack Developer', 'GenAI Systems Builder', 'Founder'];
+            let roleIndex = 0, charIndex = 0, deleting = false;
+
+            function tick() {
+                const current = roles[roleIndex];
+                if (!deleting) {
+                    charIndex++;
+                    el.textContent = current.slice(0, charIndex);
+                    if (charIndex === current.length) {
+                        deleting = true;
+                        setTimeout(tick, 1600);
+                        return;
+                    }
+                } else {
+                    charIndex--;
+                    el.textContent = current.slice(0, charIndex);
+                    if (charIndex === 0) {
+                        deleting = false;
+                        roleIndex = (roleIndex + 1) % roles.length;
+                    }
+                }
+                setTimeout(tick, deleting ? 40 : 80);
+            }
+            tick();
+        })();
+
+        // --- STAT COUNT-UP ---
+        (function() {
+            const statEls = document.querySelectorAll('.stat-number');
+            if (!statEls.length) return;
+
+            function animateCount(el) {
+                const target = parseFloat(el.dataset.target);
+                const suffix = el.dataset.suffix || '';
+                const duration = 1400;
+                const start = performance.now();
+
+                function frame(now) {
+                    const progress = Math.min((now - start) / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    el.textContent = Math.round(target * eased) + suffix;
+                    if (progress < 1) requestAnimationFrame(frame);
+                }
+                requestAnimationFrame(frame);
+            }
+
+            const statObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCount(entry.target);
+                        statObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            statEls.forEach(el => statObserver.observe(el));
+        })();
+
+        // --- TIMELINE GROWING LINE ---
+        (function() {
+            const track = document.getElementById('timeline-track');
+            if (!track) return;
+            const timelineObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        track.classList.add('grow');
+                        timelineObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            timelineObserver.observe(track.parentElement);
+        })();
+
+        // --- MAGNETIC BUTTONS ---
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.25}px, ${y * 0.35}px)`;
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0, 0)';
+            });
         });
     </script>
 </body>
